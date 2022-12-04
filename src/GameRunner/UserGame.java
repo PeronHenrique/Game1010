@@ -13,6 +13,6 @@ public class UserGame extends GameRunner {
 
     @Override
     protected Move getMove() {
-        return TerminalUI.getUserMove(nPieces, width, height);
+        return UI.getMove(nPieces, width, height);
     }
 }

@@ -28,4 +28,11 @@ public class TerminalUIRenderer implements UIRenderer {
     public void displayInvalidMove() {
         TerminalUI.printLine("Invalid Move, play again:");
     }
+
+
+    @Override
+    public Move getMove(int nPieces, int width, int height) {
+        return TerminalUI.getUserMove(nPieces, width, height);
+    }
+    
 }
