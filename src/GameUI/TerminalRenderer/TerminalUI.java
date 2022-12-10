@@ -1,4 +1,4 @@
-package GameUI;
+package GameUI.TerminalRenderer;
 
 import java.util.Map;
 import java.util.Scanner;
@@ -135,15 +135,6 @@ public class TerminalUI {
 
     }
 
-    public static void clean() {
-        for (int i = 0; i < 10; i++)
-            System.out.println("");
-        // TODO: clear terminal
-        // for (int i = 0; i < 4; i++) {
-        // System.out.print("\033[H\033[2J");
-        // System.out.flush();
-        // }
-    }
 
     public static Move getUserMove(int i, int width, int height) {
         System.out.println("Enter your move: (index, X, Y)");

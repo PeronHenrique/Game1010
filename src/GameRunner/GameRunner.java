@@ -59,10 +59,7 @@ public abstract class GameRunner implements Runnable {
                 pieces.remove(move.pieceIndex);
                 if (pieces.isEmpty())
                     getNewPieces = true;
-
-                UI.cleanScreen();
             } else {
-                UI.cleanScreen();
                 UI.displayInvalidMove();
             }
 

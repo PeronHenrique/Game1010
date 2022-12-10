@@ -1,7 +1,7 @@
 import GameLogic.GameBoard;
 import GameLogic.Piece;
 import GameLogic.Pieces;
-import GameUI.TerminalUI;
+import GameUI.TerminalRenderer.TerminalUI;
 
 public class Tests {
 

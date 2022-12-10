@@ -6,10 +6,7 @@ import GameLogic.GameBoard;
 import GameLogic.Move;
 import GameLogic.Piece;
 
-public class Bot {
-
-    public static Move getMove(GameBoard gameBoard, Map<Integer, Piece> pieces) {
-        return new Move(0, 0, 0); //TODO: look for Move
-    }
-
+public interface Bot {
+    // TODO: Make better bots
+    public Move getMove(GameBoard gameBoard, Map<Integer, Piece> pieces);
 }

@@ -1,7 +1,6 @@
 package GameRunner;
 
 import GameLogic.Move;
-import GameUI.TerminalUI;
 import GameUI.UIRenderer;
 
 public class UserGame extends GameRunner {
