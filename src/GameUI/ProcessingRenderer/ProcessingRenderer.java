@@ -11,24 +11,25 @@ import processing.core.PGraphics;
 
 public class ProcessingRenderer extends PApplet implements UIRenderer {
 
-    final int LIGHT_GREEN = color(146, 177, 97);
-    final int DARK_GREEN = color(101, 157, 93);
-    final int LIGHT_BLUE = color(93, 155, 170);
-    final int DARK_BLUE = color(101, 124, 178);
-    final int DARKER_BLUE = color(117, 102, 178);
-    final int LIGHT_PURPLE = color(184, 116, 167);
-    final int DARK_PURPLE = color(166, 114, 182);
-    final int PINK = color(203, 108, 134);
-    final int ORANGE = color(203, 135, 109);
-    final int LIGHTER_GREY = color(221, 224, 203);
-    final int LIGHT_GREY = color(203, 205, 195);
-    final int MEDIUM_GREY = color(147, 156, 169);
-    final int DARK_GREY = color(127, 136, 149);
+    public final int LIGHT_GREEN = color(146, 177, 97);
+    public final int DARK_GREEN = color(101, 157, 93);
+    public final int LIGHT_BLUE = color(93, 155, 170);
+    public final int DARK_BLUE = color(101, 124, 178);
+    public final int DARKER_BLUE = color(117, 102, 178);
+    public final int LIGHT_PURPLE = color(184, 116, 167);
+    public final int DARK_PURPLE = color(166, 114, 182);
+    public final int PINK = color(203, 108, 134);
+    public final int ORANGE = color(203, 135, 109);
+    public final int LIGHTER_GREY = color(213, 220, 213);
+    public final int LIGHT_GREY = color(203, 205, 195);
+    public final int MEDIUM_GREY = color(147, 156, 169);
+    public final int DARK_GREY = color(127, 136, 149);
 
-    final int BACKGROUND = LIGHTER_GREY;
-    final int TEXT_COLOR = MEDIUM_GREY;
-    final int EMPTY_COLOR = LIGHT_GREY;
-    final int PIECE_COLOR = PINK;
+    private final int BACKGROUND = color(221, 224, 203);
+    private final int SELECTED_COLOR = color(201, 204, 183);
+    private final int TEXT_COLOR = MEDIUM_GREY;
+    private final int EMPTY_COLOR = LIGHT_GREY;
+    private final int PIECE_COLOR = ORANGE;
 
     private PGraphics canva;
     private PGraphics helper;
@@ -38,6 +39,11 @@ public class ProcessingRenderer extends PApplet implements UIRenderer {
     private long board;
     private int points;
     private Piece[] pieces;
+
+    private int moveP = 3;
+    private int moveX = 20;
+    private int moveY = 20;
+
     private boolean GameOver;
 
     public ProcessingRenderer(int bWidth, int bHeight, int nPieces) {
@@ -62,6 +68,35 @@ public class ProcessingRenderer extends PApplet implements UIRenderer {
     }
 
     @Override
+    public void mousePressed() {
+
+        // if clicked in the board
+        int x = 300;
+        int y = 350;
+        int w = 200;
+        int h = 200;
+        int mX = mouseX * 5 / 4;
+        int mY = mouseY * 5 / 4;
+        if (mX > x - w && mX < x + w && mY > y - h && mY < y + h && moveP < pieces.length) {
+            moveX = (mX - x + w) / (400 / bWidth);
+            moveY = (mY - y + h) / (400 / bHeight);
+            return;
+        }
+
+        // if clicked in a piece
+        y = 675;
+        w = 65;
+        h = 65;
+        for (int i = 0; i < pieces.length; i++) {
+            x = ((i + 1) * canva.width) / (pieces.length + 1);
+            if (mX > x - w && mX < x + w && mY > y - h && mY < y + h && pieces[i] != null) {
+                moveP = i;
+                return;
+            }
+        }
+    }
+
+    @Override
     public void draw() {
         canva.beginDraw();
         canva.background(BACKGROUND);
@@ -70,11 +105,21 @@ public class ProcessingRenderer extends PApplet implements UIRenderer {
         helper = drawBitmap(board, bHeight, bWidth, helper);
         canva.image(helper, 300, 350, 400, 400);
 
-        for (int i = 0; i < pieces.length; i++)
+        for (int i = 0; i < pieces.length; i++) {
+            canva.rectMode(CENTER);
+            canva.stroke(TEXT_COLOR);
+            if (moveP == i)
+                canva.fill(SELECTED_COLOR);
+            else
+                canva.fill(BACKGROUND);
+
+            canva.rect(((i + 1) * canva.width) / (pieces.length + 1), 675, 130, 130, 10);
             if (pieces[i] != null) {
                 helper = drawBitmap(pieces[i].bitmap, pieces[i].height, pieces[i].width, helper);
+
                 canva.image(helper, ((i + 1) * canva.width) / (pieces.length + 1), 675);
             }
+        }
 
         canva.endDraw();
         image(canva, 0, 0, width, height);
@@ -93,15 +138,19 @@ public class ProcessingRenderer extends PApplet implements UIRenderer {
     }
 
     private PGraphics drawBitmap(long bitmap, int rows, int columns, PGraphics screen) {
-        screen = createGraphics(columns * 30, rows * 30);
+        screen = createGraphics(columns * 25, rows * 25);
         screen.beginDraw();
-        screen.background(BACKGROUND);
+        screen.pushStyle();
+
+        screen.rectMode(CORNER);
+        screen.background(0, 0, 0, 0);
         screen.noStroke();
+
         long mask = 1;
-            for (int i = 0; i < columns; i++) {
         for (int j = 0; j < rows; j++) {
-                float x_ = 30 * i + 2;
-                float y_ = 30 * j + 2;
+            for (int i = 0; i < columns; i++) {
+                float x_ = 25 * i + 2;
+                float y_ = 25 * j + 2;
 
                 if ((bitmap & mask) != 0)
                     screen.fill(PIECE_COLOR);
@@ -109,9 +158,11 @@ public class ProcessingRenderer extends PApplet implements UIRenderer {
                     screen.fill(EMPTY_COLOR);
 
                 mask <<= 1;
-                screen.rect(x_, y_, 28, 28, 8);
+                screen.rect(x_, y_, 21, 21, 7);
             }
         }
+
+        screen.popStyle();
         screen.endDraw();
         return screen;
     }
@@ -127,8 +178,8 @@ public class ProcessingRenderer extends PApplet implements UIRenderer {
 
     @Override
     public void drawGameOver(GameBoard gameBoard, int points, Map<Integer, Piece> pieces) {
+        displayGame(gameBoard, points, pieces);
         this.GameOver = true;
-
     }
 
     @Override
@@ -138,8 +189,15 @@ public class ProcessingRenderer extends PApplet implements UIRenderer {
 
     @Override
     public Move getMove(int nPieces, int width, int height) {
-        // TODO Auto-generated method stub
-        return new Move(0, 0, 0);
+        if (moveP < nPieces && moveX < width && moveY < height) {
+            Move move = new Move(moveP, moveX, moveY);
+            moveP = nPieces;
+            moveX = width;
+            moveY = height;
+            return move;
+        }
+        
+        return new Move(nPieces, width, height);
     }
 
 }

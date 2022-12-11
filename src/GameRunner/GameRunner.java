@@ -9,7 +9,7 @@ import GameLogic.Piece;
 import GameLogic.Pieces;
 import GameUI.UIRenderer;
 
-public abstract class GameRunner implements Runnable {
+public class GameRunner implements Runnable {
     protected final int width;
     protected final int height;
     protected final UIRenderer UI;
@@ -62,7 +62,6 @@ public abstract class GameRunner implements Runnable {
             } else {
                 UI.displayInvalidMove();
             }
-
         }
 
         UI.drawGameOver(gameBoard, points, pieces);
@@ -73,7 +72,9 @@ public abstract class GameRunner implements Runnable {
             pieces.put(i, Pieces.getRandonPiece());
     }
 
-    abstract protected Move getMove();
+    protected Move getMove() {
+        return UI.getMove(nPieces, width, height);
+    }
 
     protected boolean makeMove(Move move) {
         Piece piece = pieces.get(move.pieceIndex);
