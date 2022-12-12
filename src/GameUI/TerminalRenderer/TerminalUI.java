@@ -7,6 +7,7 @@ import java.util.Map.Entry;
 import GameLogic.GameBoard;
 import GameLogic.Move;
 import GameLogic.Piece;
+import java.math.BigInteger;
 
 public class TerminalUI {
 
@@ -32,16 +33,16 @@ public class TerminalUI {
                     continue;
                 }
 
-                long mask = 1;
-                mask <<= piece.width * j;
+                BigInteger mask = BigInteger.ONE;
+                mask = mask.shiftLeft(piece.width * j);
 
-                long board = piece.bitmap;
+                BigInteger board = piece.bitmap;
                 for (int i = 0; i < piece.width; i++) {
-                    if ((board & mask) != 0)
-                        System.out.print(" @");
-                    else
+                    if (board.and(mask).equals(BigInteger.ZERO))
                         System.out.print(" .");
-                    mask <<= 1;
+                    else
+                        System.out.print(" @");
+                    mask = mask.shiftLeft(1);
                 }
 
                 for (int i = 0; i < 14 - piece.width * 2; i++)
@@ -53,15 +54,16 @@ public class TerminalUI {
         System.out.println("");
     }
 
-    public static void printLong(long board, int boardWidth, int boardHeight) {
-        long mask = 1;
+    public static void printBigInteger(BigInteger board, int boardWidth, int boardHeight) {
+
+        BigInteger mask = BigInteger.ONE;
         for (int j = 0; j < boardHeight; j++) {
             for (int i = 0; i < boardWidth; i++) {
-                if ((board & mask) != 0)
-                    System.out.print(" @");
-                else
+                if (board.and(mask).equals(BigInteger.ZERO))
                     System.out.print(" .");
-                mask <<= 1;
+                else
+                    System.out.print(" @");
+                mask = mask.shiftLeft(1);
             }
             System.out.println("");
         }
@@ -71,22 +73,22 @@ public class TerminalUI {
 
     public static void printPiece(Piece piece) {
         System.out.println(piece.getName() + ": ");
-        printLong(piece.bitmap, piece.width, piece.height);
+        printBigInteger(piece.bitmap, piece.width, piece.height);
     }
 
     public static void printPiece(Piece piece, String name) {
         System.out.println(name + ": ");
-        printLong(piece.bitmap, piece.width, piece.height);
+        printBigInteger(piece.bitmap, piece.width, piece.height);
     }
 
     public static void printBoard(GameBoard gameBoard) {
         System.out.println(gameBoard.name + ": ");
-        printLong(gameBoard.getBoardLong(), gameBoard.width, gameBoard.height);
+        printBigInteger(gameBoard.getBoardBigInteger(), gameBoard.width, gameBoard.height);
     }
 
     public static void printBoard(GameBoard gameBoard, int points) {
         System.out.println(gameBoard.name + ": \nPontos: " + points);
-        printLong(gameBoard.getBoardLong(), gameBoard.width, gameBoard.height);
+        printBigInteger(gameBoard.getBoardBigInteger(), gameBoard.width, gameBoard.height);
     }
 
     public static void printSeparator() {
@@ -134,7 +136,6 @@ public class TerminalUI {
         }
 
     }
-
 
     public static Move getUserMove(int i, int width, int height) {
         System.out.println("Enter your move: (index, X, Y)");

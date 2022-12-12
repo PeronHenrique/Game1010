@@ -1,5 +1,7 @@
 package GameUI.ProcessingRenderer;
 
+import java.math.BigInteger;
+
 import java.util.Map;
 
 import GameLogic.GameBoard;
@@ -36,7 +38,7 @@ public class ProcessingRenderer extends PApplet implements UIRenderer {
 
     private int bWidth;
     private int bHeight;
-    private long board;
+    private BigInteger board;
     private int points;
     private Piece[] pieces;
 
@@ -50,7 +52,7 @@ public class ProcessingRenderer extends PApplet implements UIRenderer {
         PApplet.runSketch(new String[] { "ProcessingRenderer" }, this);
         pieces = new Piece[nPieces];
         points = 0;
-        board = 0;
+        board = BigInteger.valueOf(0);
         this.bWidth = bWidth;
         this.bHeight = bHeight;
         GameOver = false;
@@ -137,7 +139,7 @@ public class ProcessingRenderer extends PApplet implements UIRenderer {
         }
     }
 
-    private PGraphics drawBitmap(long bitmap, int rows, int columns, PGraphics screen) {
+    private PGraphics drawBitmap(BigInteger bitmap, int rows, int columns, PGraphics screen) {
         screen = createGraphics(columns * 25, rows * 25);
         screen.beginDraw();
         screen.pushStyle();
@@ -146,18 +148,18 @@ public class ProcessingRenderer extends PApplet implements UIRenderer {
         screen.background(0, 0, 0, 0);
         screen.noStroke();
 
-        long mask = 1;
+        BigInteger mask = BigInteger.ONE;
         for (int j = 0; j < rows; j++) {
             for (int i = 0; i < columns; i++) {
                 float x_ = 25 * i + 2;
                 float y_ = 25 * j + 2;
 
-                if ((bitmap & mask) != 0)
-                    screen.fill(PIECE_COLOR);
-                else
+                if (bitmap.and(mask).equals(BigInteger.ZERO))
                     screen.fill(EMPTY_COLOR);
+                else
+                    screen.fill(PIECE_COLOR);
 
-                mask <<= 1;
+                mask = mask.shiftLeft(1);
                 screen.rect(x_, y_, 21, 21, 7);
             }
         }
@@ -170,7 +172,7 @@ public class ProcessingRenderer extends PApplet implements UIRenderer {
     @Override
     public void displayGame(GameBoard gameBoard, int points, Map<Integer, Piece> pieces) {
         this.points = points;
-        this.board = gameBoard.getBoardLong();
+        this.board = gameBoard.getBoardBigInteger();
 
         for (int i = 0; i < this.pieces.length; i++)
             this.pieces[i] = pieces.get(i);
@@ -196,7 +198,7 @@ public class ProcessingRenderer extends PApplet implements UIRenderer {
             moveY = height;
             return move;
         }
-        
+
         return new Move(nPieces, width, height);
     }
 

@@ -5,8 +5,8 @@ import GameUI.ProcessingRenderer.ProcessingRenderer;
 // import GameRunner.BotGame;
 
 public class App {
-    final static private int BOARD_WIDTH = 8;
-    final static private int BOARD_HEIGHT = 8;
+    final static private int BOARD_WIDTH = 10;
+    final static private int BOARD_HEIGHT = 10;
     final static private int N_PIECES = 3;
 
     public static void main(String[] args) {

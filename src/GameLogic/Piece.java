@@ -1,5 +1,6 @@
 package GameLogic;
 
+import java.math.BigInteger;
 
 public class Piece {
     private String name;
@@ -9,28 +10,30 @@ public class Piece {
     }
 
     public void setName(String newName) {
-        if(newName == null) return;
-        if(newName.isEmpty()) return;
+        if (newName == null)
+            return;
+        if (newName.isEmpty())
+            return;
         name = newName;
     }
 
     final public int width;
     final public int height;
 
-    final public long bitmap;
+    final public BigInteger bitmap;
 
-    private long rowMask;
-    private long defaultPieceMask;
+    private BigInteger rowMask;
+    private BigInteger defaultPieceMask;
 
     public Piece(long bitmap, int width, int height, String name) {
         this.width = width;
         this.height = height;
-        this.bitmap = bitmap;
+        this.bitmap = BigInteger.valueOf(bitmap);
         this.name = name;
 
-        rowMask = 0;
+        rowMask = BigInteger.valueOf(0);
         for (int i = 0; i < width; i++)
-            rowMask = (rowMask << 1) | 1;
+            rowMask = rowMask.shiftLeft(1).add(BigInteger.ONE);
 
         setDefaultMask(this.width, this.height);
     }
@@ -43,12 +46,12 @@ public class Piece {
      * @param boardHeight
      * @return
      */
-    public long getPieceMask(int boardWidth, int boardHeight) {
-        long piecemask = 0;
+    public BigInteger getPieceMask(int boardWidth, int boardHeight) {
+        BigInteger piecemask = BigInteger.valueOf(0);
         int offset = boardWidth - this.width;
 
         for (int i = 0; i < this.height; i++)
-            piecemask |= ((bitmap & (rowMask << this.width * i)) << offset * i);
+            piecemask = piecemask.or(bitmap.and(rowMask.shiftLeft(this.width * i)).shiftLeft(offset * i));
 
         return piecemask;
     }
@@ -69,10 +72,8 @@ public class Piece {
      * 
      * @return
      */
-    public long getDefaultMask() {
+    public BigInteger getDefaultMask() {
         return defaultPieceMask;
     }
-
-
 
 }
