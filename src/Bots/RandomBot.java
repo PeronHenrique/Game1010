@@ -27,9 +27,5 @@ public class RandomBot implements Bot {
             e.printStackTrace();
         }
         return moves.get(new Random().nextInt(moves.size()));
-
-        // Random dice = new Random();
-        // return new Move(dice.nextInt(3), dice.nextInt(gameBoard.width),
-        // dice.nextInt(gameBoard.height));
     }
 }

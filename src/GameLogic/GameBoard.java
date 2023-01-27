@@ -10,7 +10,7 @@ public class GameBoard {
     private BigInteger board;
 
     public BigInteger getBoardBigInteger() {
-        return board;
+        return new BigInteger(board.toString());
     }
 
     private BigInteger rowMask;
@@ -65,14 +65,14 @@ public class GameBoard {
         return isMoveValid(board, piece.getPieceMask(width, height).shiftLeft(x + y * width));
     }
 
-    private static boolean isMoveValid(BigInteger board, BigInteger pieceMask) {
+    public static boolean isMoveValid(BigInteger board, BigInteger pieceMask) {
         if (pieceMask.equals(BigInteger.ZERO))
             return false;
 
         return pieceMask.and(board).equals(BigInteger.ZERO);
     }
 
-    private boolean isPieceOutofBounds(Piece piece, int x, int y) {
+    public boolean isPieceOutofBounds(Piece piece, int x, int y) {
         if (x + piece.width > width)
             return true;
         if (x < 0)

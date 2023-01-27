@@ -1,7 +1,8 @@
 import GameRunner.GameRunner;
 import GameUI.ProcessingRenderer.ProcessingRenderer;
 // import GameUI.TerminalRenderer.TerminalUIRenderer;
-import Bots.RandomBot;
+// import Bots.RandomBot;
+import Bots.SearchBot.SearchBot;
 import GameRunner.BotGame;
 
 public class App {
@@ -32,13 +33,21 @@ public class App {
         // new ProcessingRenderer(BOARD_WIDTH, BOARD_HEIGHT, N_PIECES),
         // N_PIECES);
 
+        // GameRunner gameRunner = new BotGame(
+        //         BOARD_WIDTH,
+        //         BOARD_HEIGHT,
+        //         "Random Bot",
+        //         new ProcessingRenderer(BOARD_WIDTH, BOARD_HEIGHT, N_PIECES),
+        //         N_PIECES,
+        //         new RandomBot());
+
         GameRunner gameRunner = new BotGame(
                 BOARD_WIDTH,
                 BOARD_HEIGHT,
-                "Random Bot",
+                "Search Bot",
                 new ProcessingRenderer(BOARD_WIDTH, BOARD_HEIGHT, N_PIECES),
                 N_PIECES,
-                new RandomBot());
+                new SearchBot());
 
         gameRunner.startGame();
     }

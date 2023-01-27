@@ -7,6 +7,6 @@ import GameLogic.Move;
 import GameLogic.Piece;
 
 public interface Bot {
-    // TODO: Make better bots
+    
     public Move getMove(GameBoard gameBoard, Map<Integer, Piece> pieces);
 }
