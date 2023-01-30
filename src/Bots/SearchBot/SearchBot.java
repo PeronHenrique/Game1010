@@ -24,13 +24,13 @@ public class SearchBot implements Bot {
             List<Play> plays = getAllPlays(gameBoard, pieces);
 
             for (Play play : plays)
-                play.CalculateScore();
+                play.CalculateScore(gameBoard);
 
             bestMoves = findBestScore(plays).getMoves();
         }
 
         try {
-            Thread.sleep(1000);
+            Thread.sleep(300);
         } catch (InterruptedException e) {
             e.printStackTrace();
         }
@@ -101,7 +101,7 @@ public class SearchBot implements Bot {
 
         for (int x = 0; x < gameBoard.width; x++) {
             for (int y = 0; y < gameBoard.height; y++) {
-                if (isValidMove(gameBoard, boardNow, piece, x, y)) {
+                if (Play.isValidMove(gameBoard, boardNow, piece, x, y)) {
                     BigInteger board = gameBoard.getBoardBigInteger();
                     board = GameBoard.setPiece(board, piecemask.shiftLeft(x + y * gameBoard.width));
 
@@ -126,7 +126,7 @@ public class SearchBot implements Bot {
 
                 for (int x = 0; x < gameBoard.width; x++) {
                     for (int y = 0; y < gameBoard.height; y++) {
-                        if (isValidMove(gameBoard, boardNow, piece, x, y)) {
+                        if (Play.isValidMove(gameBoard, boardNow, piece, x, y)) {
                             BigInteger board = play.getboard();
                             board = GameBoard.setPiece(board, piecemask.shiftLeft(x + y * gameBoard.width));
 
@@ -143,12 +143,5 @@ public class SearchBot implements Bot {
         }
 
         return plays;
-    }
-
-    private boolean isValidMove(GameBoard gameBoard, BigInteger boardNow, Piece piece, int x, int y) {
-        if (gameBoard.isPieceOutofBounds(piece, x, y))
-            return false;
-
-        return GameBoard.isMoveValid(boardNow, piece.getDefaultMask().shiftLeft(x + y * gameBoard.width));
     }
 }

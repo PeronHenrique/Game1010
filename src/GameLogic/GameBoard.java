@@ -14,7 +14,15 @@ public class GameBoard {
     }
 
     private BigInteger rowMask;
+    public BigInteger getRowMask() {
+        return rowMask;
+    }
+
     private BigInteger columnMask;
+
+    public BigInteger getColumnMask() {
+        return columnMask;
+    }
 
     public GameBoard(int width, int height, String name) {
         this.width = width;

@@ -33,14 +33,14 @@ public class Pieces {
             add(new Piece(511 - 8 - 16 - 64 - 128, 3, 3, "L shape 3.3"));
             add(new Piece(511 - 16 - 32 - 128 - 256, 3, 3, "L shape 3.4"));
 
-            add(new Piece(511 - 1 - 4 - 64 - 256, 3, 3, "cross"));
+            // add(new Piece(511 - 1 - 4 - 64 - 256, 3, 3, "cross"));
 
-            add(new Piece(511 - 8 - 32 - 64 - 256, 3, 3, "T shape 1"));
-            add(new Piece(511 - 2 - 4 - 128 - 256, 3, 3, "T shape 2"));
-            add(new Piece(511 - 1 - 4 - 8 - 32, 3, 3, "T shape 3"));
-            add(new Piece(511 - 1 - 2 - 64 - 128, 3, 3, "T shape 4"));
+            // add(new Piece(511 - 8 - 32 - 64 - 256, 3, 3, "T shape 1"));
+            // add(new Piece(511 - 2 - 4 - 128 - 256, 3, 3, "T shape 2"));
+            // add(new Piece(511 - 1 - 4 - 8 - 32, 3, 3, "T shape 3"));
+            // add(new Piece(511 - 1 - 2 - 64 - 128, 3, 3, "T shape 4"));
 
-            add(new Piece(511 - 16, 3, 3, "ring"));
+            // add(new Piece(511 - 16, 3, 3, "ring"));
         }
     };
 
