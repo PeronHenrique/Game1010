@@ -2,7 +2,7 @@ import GameRunner.GameRunner;
 import GameUI.ProcessingRenderer.ProcessingRenderer;
 // import GameUI.TerminalRenderer.TerminalUIRenderer;
 // import Bots.RandomBot;
-import Bots.SearchBot.SearchBot;
+import Bots.SearchBot.SearchBot2;
 import GameRunner.BotGame;
 
 public class App {
@@ -47,7 +47,7 @@ public class App {
                 "Search Bot",
                 new ProcessingRenderer(BOARD_WIDTH, BOARD_HEIGHT, N_PIECES),
                 N_PIECES,
-                new SearchBot());
+                new SearchBot2());
 
         gameRunner.startGame();
     }
